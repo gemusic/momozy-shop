@@ -1,0 +1,173 @@
+import React from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ROUTE_PATHS } from '@/lib/index';
+import { IMAGES } from '@/assets/images';
+import { ScratchAnimation } from './ScratchAnimation';
+
+export function HeroSection() {
+  const { scrollY } = useScroll();
+  
+  // Parallax effects
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const scale = useTransform(scrollY, [0, 500], [1, 1.1]);
+
+  return (
+    <section className="relative min-h-screen w-full flex items-center overflow-hidden bg-background">
+      {/* Background Layer with Parallax */}
+      <motion.div 
+        style={{ y: y1, scale }}
+        className="absolute inset-0 z-0"
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80 z-10" />
+        <img 
+          src={IMAGES.HERO_BACKGROUND_1}
+          alt="Urban Streetwear Scene"
+          className="w-full h-full object-cover opacity-30 grayscale"
+        />
+      </motion.div>
+
+      {/* Geometric Brutalist Overlays */}
+      <div className="absolute inset-0 pointer-events-none z-10">
+        <div className="absolute top-0 left-0 w-full h-px bg-white/10" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-white/10" />
+        <div className="absolute top-0 left-1/4 w-px h-full bg-white/5" />
+        <div className="absolute top-0 right-1/4 w-px h-full bg-white/5" />
+        
+        {/* Éléments géométriques avec animations de scratch */}
+        <ScratchAnimation 
+          direction="right" 
+          delay={0.5} 
+          intensity="brutal"
+          className="absolute top-1/4 -right-20 w-1/3 opacity-10 filter invert pointer-events-none"
+        >
+          <img 
+            src={IMAGES.GEOMETRIC_BRUTALIST_3}
+            className="w-full h-auto"
+            alt="Geometric element"
+          />
+        </ScratchAnimation>
+        
+        <ScratchAnimation 
+          direction="left" 
+          delay={0.8} 
+          intensity="medium"
+          className="absolute bottom-1/4 -left-16 w-1/4 opacity-5 pointer-events-none"
+        >
+          <img 
+            src={IMAGES.GEOMETRIC_BRUTALIST_2}
+            className="w-full h-auto filter invert"
+            alt="Geometric element"
+          />
+        </ScratchAnimation>
+        
+        <ScratchAnimation 
+          direction="top" 
+          delay={1.2} 
+          intensity="light"
+          className="absolute top-10 right-1/3 w-20 h-20 opacity-10 pointer-events-none"
+        >
+          <div className="w-full h-full border-2 border-white/20 rotate-45" />
+        </ScratchAnimation>
+      </div>
+
+      {/* Content Container */}
+      <div className="container mx-auto px-4 relative z-20">
+        <div className="max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="inline-block py-1 px-4 border border-white/20 text-xs font-mono tracking-widest uppercase mb-6 bg-white/5 backdrop-blur-sm">
+              Nouvelle Collection 2026
+            </span>
+            
+            <h1 className="text-6xl md:text-9xl font-black leading-[0.85] tracking-tighter uppercase mb-8 font-syne">
+              <span className="block">Dominez</span>
+              <span className="block text-outline-white text-transparent">La Rue.</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-12 leading-relaxed">
+              L'épicentre du streetwear premium au Bénin. Qualité supérieure, 
+              coupes boxy et exclusivité totale pour l'élite urbaine.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <ScratchAnimation direction="left" delay={1.5} intensity="medium">
+                <Link to={ROUTE_PATHS.SHOP}>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-primary text-primary-foreground px-10 py-5 font-bold uppercase tracking-tighter flex items-center justify-between group min-w-[240px]"
+                  >
+                    Shopper le Drop
+                    <ArrowRight className="ml-4 transition-transform group-hover:translate-x-2" />
+                  </motion.button>
+                </Link>
+              </ScratchAnimation>
+              
+              <ScratchAnimation direction="right" delay={1.7} intensity="light">
+                <Link to={ROUTE_PATHS.BRANDS}>
+                  <motion.button
+                    whileHover={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+                    className="border border-white/20 px-10 py-5 font-bold uppercase tracking-tighter backdrop-blur-sm"
+                  >
+                    Le Momozy Gang
+                  </motion.button>
+                </Link>
+              </ScratchAnimation>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Bottom Info Bar */}
+      <motion.div 
+        style={{ opacity }}
+        className="absolute bottom-0 left-0 w-full p-8 flex flex-col md:flex-row justify-between items-end md:items-center z-20 border-t border-white/10"
+      >
+        <div className="flex gap-8 mb-4 md:mb-0">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono uppercase text-muted-foreground">Localisation</span>
+            <span className="text-sm font-bold uppercase">Cotonou, Togoudo</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono uppercase text-muted-foreground">Statut</span>
+            <span className="text-sm font-bold uppercase text-green-500">Shop Ouvert</span>
+          </div>
+        </div>
+
+        <motion.div 
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="hidden md:flex flex-col items-center gap-2 cursor-pointer"
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        >
+          <span className="text-[10px] font-mono uppercase tracking-widest">Scroll</span>
+          <ChevronDown size={20} />
+        </motion.div>
+
+        <div className="text-right">
+          <p className="text-xs font-mono uppercase text-muted-foreground mb-1">Éditions Limitées</p>
+          <p className="text-xl font-black">03 / 10</p>
+        </div>
+      </motion.div>
+
+      {/* Side Text - Vertical */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:block rotate-90 origin-right">
+        <p className="text-[10px] font-mono uppercase tracking-[1em] text-white/20 whitespace-nowrap">
+          Streetwear Culture • Elite Standards • Momozy Shop
+        </p>
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .text-outline-white {
+          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+        }
+      `}} />
+    </section>
+  );
+}
