@@ -10,6 +10,9 @@ import ProductDetail from "@/pages/ProductDetail";
 import BrandsPage from "@/pages/Brands";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import Guide from "@/pages/Guide";
+import Delivery from "@/pages/Delivery";
+import FAQ from "@/pages/FAQ";
 import { ROUTE_PATHS } from "@/lib/index";
 
 const queryClient = new QueryClient({
@@ -25,6 +28,17 @@ const queryClient = new QueryClient({
  * MOMOZY SHOP - L'épicentre du Streetwear Premium au Bénin
  * Root application component handling routing and global providers.
  * Designed with a brutalist, high-contrast aesthetic inspired by elite urban culture.
+ * 
+ * Routes:
+ * - HOME: Landing page with hero and featured products
+ * - SHOP: Product catalog with filtering and search
+ * - PRODUCT_DETAIL: Individual product page with images, details, and purchase options
+ * - BRANDS: Featured brands and collections
+ * - ABOUT: Company story and mission
+ * - CONTACT: Contact form and support information
+ * - GUIDE: Size guide and garment care instructions
+ * - DELIVERY: Shipping zones, costs, and payment methods
+ * - FAQ: Frequently asked questions and support
  */
 export default function App() {
   return (
@@ -52,6 +66,15 @@ export default function App() {
               
               {/* Contact - Support Direct & WhatsApp */}
               <Route path={ROUTE_PATHS.CONTACT} element={<Contact />} />
+
+              {/* Guide - Tailles et Entretien des Vêtements */}
+              <Route path={ROUTE_PATHS.GUIDE} element={<Guide />} />
+              
+              {/* Livraison - Zones, Tarifs et Modes de Paiement */}
+              <Route path={ROUTE_PATHS.DELIVERY} element={<Delivery />} />
+              
+              {/* FAQ - Questions Fréquentes et Support */}
+              <Route path={ROUTE_PATHS.FAQ} element={<FAQ />} />
 
               {/* Catch-all - Redirection vers l'accueil pour le brutalisme sans erreur */}
               <Route path="*" element={<Home />} />

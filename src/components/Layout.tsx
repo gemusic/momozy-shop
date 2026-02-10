@@ -65,7 +65,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Sticky Header */}
       <header 
         className={cn(
-          "fixed top-10 left-0 w-full z-50 transition-all duration-300 border-b border-border/10",
+          "relative w-full z-50 transition-all duration-300 border-b border-border/10",
           isScrolled 
             ? "bg-background/80 backdrop-blur-xl py-3 border-border/40" 
             : "bg-transparent py-6"
@@ -226,16 +226,16 @@ export default function Layout({ children }: LayoutProps) {
               <h4 className="text-xs font-mono font-bold uppercase tracking-[0.3em] text-primary">Assistance</h4>
               <ul className="space-y-3">
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Guide des Tailles</Link>
+                  <Link to={ROUTE_PATHS.GUIDE} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Guide des Tailles</Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Livraison & Tarifs</Link>
+                  <Link to={ROUTE_PATHS.DELIVERY} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Livraison & Tarifs</Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</Link>
+                  <Link to={ROUTE_PATHS.FAQ} className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</Link>
                 </li>
                 <li>
-                  <Link to="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Suivi de Commande</Link>
+                  <Link to={ROUTE_PATHS.FAQ} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Suivi de Commande</Link>
                 </li>
               </ul>
             </div>

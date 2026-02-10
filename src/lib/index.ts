@@ -7,6 +7,9 @@ export const ROUTE_PATHS = {
   BRANDS: "/marques",
   ABOUT: "/a-propos",
   CONTACT: "/contact",
+  GUIDE: "/guide",
+  DELIVERY: "/livraison",
+  FAQ: "/faq",
 } as const;
 
 export interface Product {
