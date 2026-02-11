@@ -5,7 +5,7 @@
  * Elements arrive from left/right with random rotation, then stabilize with a slight tilt.
  */
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 export type Intensity = 'light' | 'medium' | 'brutal';
@@ -13,7 +13,7 @@ export type Intensity = 'light' | 'medium' | 'brutal';
 interface ScratchBrutalProps {
   children: React.ReactNode;
   intensity?: Intensity;
-  cascadeIndex?: number; // Renamed from index to avoid potential naming conflicts
+  cascadeIndex?: number;
   delay?: number; // Base delay if cascadeIndex is not provided
   className?: string;
   once?: boolean;
@@ -41,66 +41,32 @@ export function ScratchBrutal({
   className = '',
   once = true,
 }: ScratchBrutalProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  // Random direction: -1 for left, 1 for right
-  const directionRef = useRef(Math.random() > 0.5 ? 1 : -1);
-  
-  // Random starting rotation between -12° and +12°
-  const randomRotationRef = useRef(Math.random() * 24 - 12);
-  
-  // Final slight tilt (between -2° and +2°)
-  const finalTiltRef = useRef(Math.random() * 4 - 2);
-
   const config = INTENSITY_CONFIG[intensity];
 
   // Calculate total delay: base delay + (cascadeIndex * stagger)
   const totalDelay = (delay || 0) + (cascadeIndex * 0.1);
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
-      setIsVisible(true);
-      return;
-    }
+  // Deterministic values based on cascadeIndex to ensure coherent "wave" effects
+  // direction: -1 for left, 1 for right
+  const direction = cascadeIndex % 2 === 0 ? 1 : -1;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && (!hasAnimated || !once)) {
-          setIsVisible(true);
-          if (once) setHasAnimated(true);
-        }
-      },
-      {
-        // Positive margin triggers animation BEFORE the element enters the viewport
-        // This ensures elements at the top are visible immediately.
-        rootMargin: '100px',
-        threshold: 0,
-      }
-    );
+  // Starting rotation between -intensity.rotation and +intensity.rotation
+  // Using a deterministic "pseudo-random" offset based on index
+  const startRotation = (((cascadeIndex * 7) % 24) - 12) * (config.rotation / 12);
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [hasAnimated, once]);
+  // Final slight tilt (between -2° and +2°)
+  const finalTilt = ((cascadeIndex * 3) % 4) - 2;
 
   // Animation variants
   const variants = {
     hidden: {
-      x: directionRef.current * config.distance,
-      rotate: randomRotationRef.current,
+      x: direction * config.distance,
+      rotate: startRotation,
       opacity: 0,
     },
     visible: {
       x: 0,
-      rotate: finalTiltRef.current,
+      rotate: finalTilt,
       opacity: 1,
       transition: {
         delay: totalDelay,
@@ -121,9 +87,13 @@ export function ScratchBrutal({
 
   return (
     <motion.div
-      ref={ref}
       initial="hidden"
-      animate={isVisible ? 'visible' : 'hidden'}
+      whileInView="visible"
+      viewport={{
+        once: once,
+        margin: "-100px", // Trigger slightly inside the viewport for better UX
+        amount: 0
+      }}
       whileHover="hover"
       variants={variants}
       className={className}

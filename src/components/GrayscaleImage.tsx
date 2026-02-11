@@ -11,7 +11,7 @@ export const GrayscaleImage: React.FC<GrayscaleImageProps> = ({ className, ...pr
   return (
     <img
       ref={ref}
-      className={cn("transition-all duration-700", className)}
+      className={cn("grayscale-to-color transition-all duration-700", className)}
       {...props}
     />
   );

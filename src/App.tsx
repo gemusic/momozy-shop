@@ -15,6 +15,8 @@ import Delivery from "@/pages/Delivery";
 import FAQ from "@/pages/FAQ";
 import Checkout from "@/pages/Checkout";
 import OrderTracking from "@/pages/Tracking";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import { ROUTE_PATHS } from "@/lib/index";
 
 const queryClient = new QueryClient({
@@ -83,6 +85,10 @@ export default function App() {
 
               {/* Suivi - Suivi de commande en temps réel */}
               <Route path={ROUTE_PATHS.TRACKING} element={<OrderTracking />} />
+
+              {/* Blog - Le Journal du Gang */}
+              <Route path={ROUTE_PATHS.BLOG} element={<Blog />} />
+              <Route path={ROUTE_PATHS.BLOG_POST} element={<BlogPost />} />
 
               {/* Catch-all - Redirection vers l'accueil pour le brutalisme sans erreur */}
               <Route path="*" element={<Home />} />

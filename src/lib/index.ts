@@ -12,7 +12,21 @@ export const ROUTE_PATHS = {
   FAQ: "/faq",
   CHECKOUT: "/checkout",
   TRACKING: "/suivi",
+  BLOG: "/blog",
+  BLOG_POST: "/blog/:id",
 } as const;
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  date: string;
+  author: string;
+  category: string;
+  readTime: string;
+}
 
 export interface Product {
   id: string;
@@ -52,6 +66,62 @@ export const BRANDS = [
   { name: "Saint Vanity", slug: "saint-vanity" },
   { name: "Diesel", slug: "diesel" },
 ] as const;
+
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    id: "1",
+    title: "L'Ascension du Streetwear Brutaliste en Afrique de l'Ouest",
+    excerpt: "Comment les silhouettes agressives et les matériaux bruts redéfinissent la mode à Cotonou et au-delà.",
+    content: `
+      Le paysage de la mode en Afrique de l'Ouest subit une transformation radicale. Fini le temps où le luxe se définissait uniquement par le faste et la brillance. Aujourd'hui, une nouvelle génération de créateurs et de passionnés, menée par des collectifs comme le Momozy Gang, embrasse l'esthétique du brut.
+
+      Le "Scratch Brutal", ce n'est pas seulement un style visuel, c'est une déclaration d'indépendance. Il s'agit de célébrer l'imperfection, la texture du béton, et la force des lignes industrielles. À Cotonou, cette tendance se manifeste par des coupes boxy, des tissus heavyweight et une palette de couleurs dominée par le noir et les gris profonds.
+
+      Pourquoi ce succès ? Parce que le style brutaliste résonne avec la réalité urbaine. Il est résistant, il est honnête, et il impose le respect. Les pièces que nous sélectionnons chez Momozy Shop ne sont pas de simples vêtements ; ce sont des armures modernes pour l'élite urbaine qui navigue dans la jungle de Calavi et de Cotonou.
+    `,
+    image: "https://images.unsplash.com/photo-1552061081-998371c91977?q=80&w=1000&auto=format&fit=crop",
+    date: "12 Mars 2026",
+    author: "Momozy Editor",
+    category: "Tendances",
+    readTime: "5 min"
+  },
+  {
+    id: "2",
+    title: "Guide : Comment Porter l'Oversize sans se Perdre",
+    excerpt: "Les secrets pour maîtriser les volumes et les proportions de vos hoodies et t-shirts cette saison.",
+    content: `
+      L'oversize est partout, mais le maîtriser demande de la précision. Porter du large ne signifie pas porter du mal ajusté. Voici les règles d'or du Momozy Gang pour dominer le volume :
+
+      1. La Règle de l'Équilibre : Si votre haut est massif (comme nos hoodies Fear of God), essayez de structurer le bas avec un pantalon cargo aux chevilles resserrées ou un denim plus fitté.
+      2. La Matière est la Clé : Un t-shirt oversize doit avoir de la tenue. Cherchez du coton lourd (au moins 240 GSM) pour que la silhouette reste structurée et ne s'affaisse pas.
+      3. Accessoirisez avec Force : Les volumes larges appellent des accessoires marquants. Une casquette signature ou des sneakers massives comme les Triple S équilibrent la silhouette.
+
+      L'objectif est de créer une impression de puissance, pas de négligence. Explorez notre collection 'Hauts' pour trouver les pièces de base de votre garde-robe oversize.
+    `,
+    image: "https://images.unsplash.com/photo-1529139570274-db1709405b58?q=80&w=1000&auto=format&fit=crop",
+    date: "08 Mars 2026",
+    author: "Style Guru",
+    category: "Guide",
+    readTime: "4 min"
+  },
+  {
+    id: "3",
+    title: "Sneaker Culture : Pourquoi la Triple S reste une Icône",
+    excerpt: "Analyse d'une chaussure qui a divisé l'opinion avant de conquérir le monde du luxe déstructuré.",
+    content: `
+      Quand Balenciaga a lancé la Triple S, le monde de la mode a été secoué. Trop grosse, trop étrange, trop "chaussure de papa". Et pourtant, quelques années plus tard, elle reste la référence absolue du luxe déstructuré.
+
+      Ce qui rend la Triple S spéciale, c'est son audace. Elle a brisé les codes de la sneaker fine pour imposer une vision architecturale du pied. Dans nos rues de Cotonou, elle est devenue le symbole ultime de ceux qui osent. Sa semelle multicouche n'est pas qu'un gadget design ; c'est une prouesse technique qui offre une stature et une présence inégalées.
+
+      Dans ce numéro, nous explorons comment l'intégrer dans un look 'Elite' sans en faire trop. Spoiler : la sobriété du reste de la tenue est votre meilleure alliée.
+    `,
+    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop",
+    date: "01 Mars 2026",
+    author: "Kick Hunter",
+    category: "Culture",
+    readTime: "6 min"
+  }
+];
 
 export const PRODUCTS: Product[] = [
   {

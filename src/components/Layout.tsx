@@ -20,6 +20,7 @@ import { ROUTE_PATHS, CATEGORIES } from "@/lib/index";
 import { useCart } from "@/hooks/useCart";
 import { cn } from "@/lib/utils";
 import { CartDrawer } from "./CartDrawer";
+import { NewsletterPopup } from "./NewsletterPopup";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -95,6 +96,7 @@ export default function Layout({ children }: LayoutProps) {
     { name: "DROPS", path: ROUTE_PATHS.HOME },
     { name: "BOUTIQUE", path: ROUTE_PATHS.SHOP },
     { name: "MARQUES", path: ROUTE_PATHS.BRANDS },
+    { name: "BLOG", path: ROUTE_PATHS.BLOG },
     { name: "MOMOZY GANG", path: ROUTE_PATHS.ABOUT },
     { name: "CONTACT", path: ROUTE_PATHS.CONTACT },
   ];
@@ -251,6 +253,9 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
+      {/* Newsletter Popup */}
+      <NewsletterPopup />
+
       {/* Cart Drawer */}
       <CartDrawer
         isOpen={isCartOpen}
@@ -313,6 +318,9 @@ export default function Layout({ children }: LayoutProps) {
                 </li>
                 <li>
                   <Link to={ROUTE_PATHS.TRACKING} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Suivi de Commande</Link>
+                </li>
+                <li>
+                  <Link to={ROUTE_PATHS.BLOG} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Journal & Blog</Link>
                 </li>
               </ul>
             </div>
