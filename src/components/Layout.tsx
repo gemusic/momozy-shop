@@ -29,8 +29,8 @@ interface LayoutProps {
 
 const AUDIO_CONFIG = {
   START_SCROLL: 50,
-  END_SCROLL: 500,
-  MAX_VOLUME: 0.4,
+  END_SCROLL: 1500,
+  MAX_VOLUME: 0.15,
   FILE_PATH: "/audio/background.mp3"
 };
 

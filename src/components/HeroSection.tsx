@@ -39,6 +39,7 @@ export function HeroSection() {
           loop
           muted
           playsInline
+          preload="auto"
           className="w-full h-full object-cover opacity-30"
         >
           <source src="/momozy.mp4" type="video/mp4" />
