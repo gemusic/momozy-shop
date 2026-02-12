@@ -28,23 +28,21 @@ export function HeroSection() {
       {/* Background Layer with Parallax and Video */}
       <motion.div 
         style={{ y: y1, scale }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 bg-black"
       >
-        {/* Gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80 z-10" />
-        
         {/* Hero background video with autoplay and loop */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          preload="auto"
-          className="w-full h-full object-cover opacity-30"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 z-0"
         >
           <source src="/momozy.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
         </video>
+
+        {/* Gradient overlay for text readability - placed above video */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 z-10" />
       </motion.div>
 
       {/* Geometric Brutalist Overlays with Scratch Animations */}
