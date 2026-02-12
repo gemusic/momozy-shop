@@ -82,13 +82,10 @@ export const ScratchToRevealLoader: React.FC<ScratchToRevealLoaderProps> = ({ on
       setAssetProgress((loadedAssets / totalAssets) * 100);
     };
 
-    // Track the background video specifically
-    const video = document.createElement('video');
-    video.src = '/momozy.mp4';
-    video.oncanplaythrough = incrementProgress;
-
     // Track some critical images
     const criticalImages = [
+      '/herosection1.jpg',
+      '/herosection2.jpg',
       '/audio/background.mp3', // Tracking audio too
     ];
 
