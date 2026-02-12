@@ -119,7 +119,7 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans overflow-x-hidden relative">
       {/* Brutalist Scratch Loader */}
       <ScratchToRevealLoader onComplete={() => {
         setIsSiteRevealed(true);
@@ -277,7 +277,7 @@ export default function Layout({ children }: LayoutProps) {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="flex-grow overflow-x-hidden relative">
         {children}
       </main>
 

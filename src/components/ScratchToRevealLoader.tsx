@@ -14,8 +14,14 @@ interface ScratchToRevealLoaderProps {
 
 export const ScratchToRevealLoader: React.FC<ScratchToRevealLoaderProps> = ({ onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isRevealed, setIsRevealed] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('momozy_revealed') === 'true';
+    }
+    return false;
+  });
   const [isLoaded, setIsLoaded] = useState(false);
+  const [assetProgress, setAssetProgress] = useState(0);
   const [scratchPercentage, setScratchPercentage] = useState(0);
   const isDrawing = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
@@ -67,6 +73,48 @@ export const ScratchToRevealLoader: React.FC<ScratchToRevealLoaderProps> = ({ on
     window.addEventListener('resize', resizeCanvas);
     setIsLoaded(true);
 
+    // Asset Loading Simulation/Tracking
+    const totalAssets = 5;
+    let loadedAssets = 0;
+
+    const incrementProgress = () => {
+      loadedAssets++;
+      setAssetProgress((loadedAssets / totalAssets) * 100);
+    };
+
+    // Track the background video specifically
+    const video = document.createElement('video');
+    video.src = '/momozy.mp4';
+    video.oncanplaythrough = incrementProgress;
+
+    // Track some critical images
+    const criticalImages = [
+      '/audio/background.mp3', // Tracking audio too
+    ];
+
+    criticalImages.forEach(src => {
+      const img = new Image();
+      if (src.endsWith('.mp3')) {
+        const audio = new Audio();
+        audio.src = src;
+        audio.oncanplaythrough = incrementProgress;
+      } else {
+        img.src = src;
+        img.onload = incrementProgress;
+      }
+    });
+
+    // Simulated remaining progress to ensure it hits 100% smoothly
+    const interval = setInterval(() => {
+      setAssetProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return Math.min(prev + Math.random() * 5, 99);
+      });
+    }, 200);
+
     // Lock scroll during loading
     document.body.style.overflow = 'hidden';
 
@@ -106,6 +154,7 @@ export const ScratchToRevealLoader: React.FC<ScratchToRevealLoaderProps> = ({ on
 
   const handleReveal = () => {
     setIsRevealed(true);
+    sessionStorage.setItem('momozy_revealed', 'true');
     document.body.style.overflow = ''; // Restore scroll
     setTimeout(onComplete, 800); // Delay to allow fade out animation
   };
@@ -179,18 +228,46 @@ export const ScratchToRevealLoader: React.FC<ScratchToRevealLoaderProps> = ({ on
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              transition={{ delay: 0.5 }}
               className="flex flex-col items-center gap-4"
             >
-              <span className="text-xs font-mono tracking-[0.3em] uppercase text-white/40">
-                {scratchPercentage < 5 ? "GRATTEZ POUR ENTRER DANS LE GANG" : `PROGRESSION: ${Math.round(scratchPercentage * 4)}%`}
-              </span>
-              <div className="w-32 h-px bg-white/20 relative overflow-hidden">
+              <div className="flex flex-col gap-1 items-center">
+                <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/20">
+                  {assetProgress < 100 ? "SYNCHRONISATION DES ASSETS..." : "GANG READY"}
+                </span>
+                <span className="text-xs font-mono tracking-[0.3em] uppercase text-white/60">
+                  {assetProgress < 100
+                    ? `CHARGEMENT: ${Math.round(assetProgress)}%`
+                    : scratchPercentage < 2
+                      ? "GRATTEZ POUR ENTRER"
+                      : `ACCÈS: ${Math.min(100, Math.round(scratchPercentage * 4))}%`
+                  }
+                </span>
+              </div>
+
+              <div className="w-48 h-px bg-white/10 relative overflow-hidden">
+                 {/* Asset Progress Bar */}
                  <motion.div
-                   className="absolute inset-0 bg-primary"
+                   className="absolute inset-0 bg-white/20"
+                   style={{ scaleX: assetProgress / 100, transformOrigin: 'left' }}
+                 />
+                 {/* Scratch Progress Bar */}
+                 <motion.div
+                   className="absolute inset-0 bg-primary z-10"
                    style={{ scaleX: Math.min(1, scratchPercentage / 25), transformOrigin: 'left' }}
                  />
               </div>
+
+              {assetProgress === 100 && scratchPercentage < 5 && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                  className="text-[9px] font-mono tracking-[0.2em] text-primary uppercase mt-2"
+                >
+                  Utilisez votre doigt ou souris
+                </motion.span>
+              )}
             </motion.div>
           </div>
 
